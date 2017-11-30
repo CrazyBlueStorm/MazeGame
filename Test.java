@@ -34,5 +34,37 @@ public class Test extends Game{
 		}
 		return t;
 	}
-	
+	public static boolean TestMonster(int x, int y) {
+		boolean t = false;
+		for (int i = 0; i < Nm; i ++) {
+			if ((monster[i].PX == x+1)&&(monster[i].PY == y)) {
+				player.Kill = player.Kill+1;
+				player.Point = player.Point + monster[i].Money;
+				Monster.Get(i);
+				t = true;
+			}
+			if ((monster[i].PX == x-1)&&(monster[i].PY == y)) {
+				player.Kill = player.Kill+1;
+				player.Point = player.Point + monster[i].Money;
+				Monster.Get(i);
+				t = true;
+			}
+			if ((monster[i].PX == x)&&(monster[i].PY == y-1)) {
+				player.Kill = player.Kill+1;
+				player.Point = player.Point + monster[i].Money;
+				Monster.Get(i);
+				t = true;
+			}
+			if ((monster[i].PX == x)&&(monster[i].PY == y+1)) {
+				player.Kill = player.Kill+1;
+				player.Point = player.Point + monster[i].Money;
+				Monster.Get(i);
+				t = true;
+			}
+		}
+		return t;
+	}
+	public static void BuildTandM() {
+		
+	}
 }

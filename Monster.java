@@ -2,12 +2,14 @@
 public class Monster extends Game{
 	int PX = 1;
 	int PY = 1;
+	int Money;
 	public Monster(int r, int c){
 		while ((PX == 1 && PY == 10)||(PX == r-2 && PY == c-2))
 		{
 			PX = (int)(Math.random()*(r-3))+1;
 			PY = (int)(Math.random()*(c-3))+1;
 		}
+		Money = (int)(Math.random()*100)+300;
 	}
 	public static void AutoMove() {
 		int n = 0;
@@ -55,4 +57,9 @@ public class Monster extends Game{
 					}
 				}
 		}
+	public static void Get(int m) {
+		for (int i = m; i < Nm; i++)
+			monster[i]= monster[i+1];
+		Nm = Nm - 1;
+	}
 }

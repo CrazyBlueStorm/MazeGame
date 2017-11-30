@@ -5,8 +5,8 @@ public class Game {
 	static int Nm = 0;
 	static boolean permission = true;
 	static Player player;
-	static Monster[] monster;
-	static Treasure[] treasure;
+	static Monster[] monster = new Monster[20];
+	static Treasure[] treasure = new Treasure[20];
 	static int [][] map;
 	static int difficulty = 1;
 	static String mode;
@@ -14,11 +14,10 @@ public class Game {
 	public static void main(String[] args) {
 		Users.Initialization(args);
 		Scanner input = new Scanner(System.in);
-		Users.Welcome();
 		player = new Player(Users.getName());
-		if (mode.equals("Story")) Story();
-		if (mode.equals("SandBox")) SandBox();
-		if (mode.equals("Random")) Random();
+		if (mode.equals("story")) Story();
+		if (mode.equals("sandBox")) SandBox();
+		if (mode.equals("random")) Random();
 	}
 	public static void Story() {
 		if (difficulty == 1) {
@@ -29,12 +28,15 @@ public class Game {
 		}
 		while (difficulty < 5) {
 			map = Map.Getmap(difficulty);
+			key = true;
+			player.PX = 1;
+			player.PY = 1;
 			while (key) {
 				if (permission) Map.Print();
 				String order = Users.IandO();
 				Event.go(order);
+				if ((player.PX == map.length-2)&&(player.PY == map[0].length-2))Users.LevelUp(difficulty);
 			}
-			Users.LevelUp(difficulty);
 			difficulty = difficulty + 1;
 		}
 		Users.Stop();
@@ -43,6 +45,10 @@ public class Game {
 		
 	}
 	public static void Random() {
-		
+		while (key) {
+			if (permission) Map.Print();
+			String order = Users.IandO();
+			Event.go(order);
+		}
 	}
 }

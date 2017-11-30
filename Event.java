@@ -5,8 +5,6 @@ public class Event extends Game{
 		if ((s.equals("w"))||(s.equals("s"))||(s.equals("a"))||(s.equals("d"))) SetPosition(s);
 		if (s.equals("b")) Back();
 		if (s.equals("p")) Test.TestTreasure(player.PX,player.PY);
-		if (s.equals("k")) Kill();
-		if (s.equals("c")) Character.property();
 		if (s.equals("q") || s.equals("x")) Users.Stop();
 	}
 	public static void SetPosition(String s) {
