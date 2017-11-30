@@ -3,8 +3,9 @@ public class Event extends Game{
 	public static void go(String s) {
 		if (s.equals("h")) Help();
 		if ((s.equals("w"))||(s.equals("s"))||(s.equals("a"))||(s.equals("d"))) SetPosition(s);
-		if (s.equals("b")) Back();
 		if (s.equals("p")) Test.TestTreasure(player.PX,player.PY);
+		if (s.equals("k")) Test.TestMonster(player.PX,player.PY);
+		if (s.equals("c")) player.Property();
 		if (s.equals("q") || s.equals("x")) Users.Stop();
 	}
 	public static void SetPosition(String s) {
