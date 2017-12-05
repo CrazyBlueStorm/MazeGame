@@ -5,18 +5,22 @@ public class Game {
 	static int Nm = 0;
 	static boolean permission = true;
 	static Player player;
-	static Monster[] monster = new Monster[20];
-	static Treasure[] treasure = new Treasure[20];
+	static Monster[] monster = new Monster[30];
+	static Treasure[] treasure = new Treasure[30];
 	static int [][] map;
 	static int difficulty = 1;
 	static String mode;
 	static boolean key = true;
 	public static void main(String[] args) {
+		for (int i = 0; i < 30; i++) {
+			monster[i] = new Monster();
+			treasure[i] = new Treasure();
+		}
 		Users.Initialization(args);
-		Scanner input = new Scanner(System.in);
 		player = new Player(Users.getName());
+		Scanner input = new Scanner(System.in);
 		if (mode.equals("story")) Story();
-		if (mode.equals("sandBox")) SandBox();
+		if (mode.equals("sandbox")) SandBox();
 		if (mode.equals("random")) Random();
 	}
 	public static void Story() {
@@ -29,26 +33,59 @@ public class Game {
 		while (difficulty < 5) {
 			map = Map.Getmap(difficulty);
 			key = true;
-			player.PX = 1;
-			player.PY = 1;
+			Map.Build();
+			Map.Print();
 			while (key) {
-				if (permission) Map.Print();
 				String order = Users.IandO();
 				Event.go(order);
-				if ((player.PX == map.length-2)&&(player.PY == map[0].length-2))Users.LevelUp(difficulty);
+				if (permission) {
+					FootPrint.Foot(order);
+					if (difficulty == 4) Monster.AutoMove();
+					Test.Testalive();
+					Map.Print();
+				}
+				permission = true;
+				if ((player.PX == map.length-2)&&(player.PY == map[0].length-2)) Users.LevelUp(difficulty);
 			}
 			difficulty = difficulty + 1;
 		}
 		Users.Stop();
 	}
 	public static void SandBox() {
-		
-	}
-	public static void Random() {
-		while (key) {
-			if (permission) Map.Print();
+		Users.LevelUp(difficulty-1);
+		key = true;
+		Map.Build();
+		Map.Print();
+		while(key) {
 			String order = Users.IandO();
 			Event.go(order);
+			if(permission) {
+				FootPrint.Foot(order);
+				if (difficulty == 4) Monster.AutoMove();
+				Test.Testalive();
+				Map.Print();
+			}
+			permission = true;
+			if ((player.PX == map.length-2)&&(player.PY == map[0].length-2)) Users.Win();
 		}
+		Users.Stop();
+	}
+	public static void Random() {
+		System.out.println("你生成了一张长为"+map.length+"  宽为"+map[0].length+"  的地图.");
+		key = true;
+		Map.Print();
+		while (key) {
+			String order = Users.IandO();
+			Event.go(order);
+			if (permission) {
+				FootPrint.Foot(order);
+				Monster.AutoMove();
+				Test.Testalive();
+				Map.Print();
+			}
+			permission = true;
+			if ((player.PX == map.length-2)&&(player.PY == map[0].length-2)) Users.Win();
+		}
+		Users.Stop();
 	}
 }

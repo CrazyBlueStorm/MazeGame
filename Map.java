@@ -97,9 +97,12 @@ public class Map extends Game{
 				{1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,4,0,0,1,0,0,5,1},
 				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 			};
-		if (storey == 1) return map1;
-		else if (storey == 2) return map2;
-		else return map3;
+		if (storey == 1) 
+				return map1;
+		else if (storey == 2) 
+			return map2;
+		else 
+			return map3;
 	}
 	public static int[][] Random(int r, int c) {
 		rmap = new int[r][c];
@@ -182,7 +185,9 @@ public class Map extends Game{
 		int[][] pmap = new int [map.length][map[0].length];
 		for (int i = 0; i < pmap.length; i++) 
 			for (int j = 0; j < pmap[0].length; j++) 
-			pmap[i][j] = map[i][j];	
+			if ((map[i][j] == 0)||(map[i][j] == 1)||(map[i][j] == 5)) pmap[i][j] = map[i][j];
+		if (player.FP1 >= 0) pmap[player.Footprint[0][player.FP1]][player.Footprint[1][player.FP1]] = 3;
+		if (player.FP2 >= 0) pmap[player.Footprint[0][player.FP2]][player.Footprint[1][player.FP2]] = 3;
 		for (int i = 0; i < Nt; i++) pmap[treasure[i].PX][treasure[i].PY] = 6;
 		pmap[player.PX][player.PY] = 2;
 		for (int i = 0; i < Nm; i++) pmap[monster[i].PX][monster[i].PY] = 4;
@@ -198,5 +203,27 @@ public class Map extends Game{
 			}
 			System.out.println();
 		}
+	}
+	public static void Build() {
+		player.PX = 1;
+		player.PY = 1;
+		for (int i = 0; i < Nm; i++) {
+			monster[i].PX = 1;
+			monster[i].PY = 1;
+		}
+		for (int j = 0; j < Nt; j++) {
+			treasure[j].PX = 1;
+			treasure[j].PY = 1;
+		}
+		Nm = 0;
+		Nt = 0;
+		player.turns = 0;
+		player.Footprint[0][0] = 1;
+		player.Footprint[1][0] = 1;
+		for	(int i = 0; i < map.length; i++) 
+			for (int j = 0; j < map[0].length; j++) {
+				if (map[i][j] == 4) Monster.Set(i,j);
+				if (map[i][j] == 6) Treasure.Set(i,j);
+			}
 	}
 }

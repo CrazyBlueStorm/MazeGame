@@ -5,48 +5,54 @@ public class Event extends Game{
 		if ((s.equals("w"))||(s.equals("s"))||(s.equals("a"))||(s.equals("d"))) SetPosition(s);
 		if (s.equals("p")) Test.TestTreasure(player.PX,player.PY);
 		if (s.equals("k")) Test.TestMonster(player.PX,player.PY);
-		if (s.equals("c")) player.Property();
+		if (s.equals("b")) Back();
+		if (s.equals("c")) {
+			permission = false;
+			player.Property();
+		}
 		if (s.equals("q") || s.equals("x")) Users.Stop();
 	}
 	public static void SetPosition(String s) {
 		if (s.equals("w")) {
 			if (Test.TestMap(player.PX-1,player.PY)) {
 				player.PX = player.PX - 1;
+				player.Pace = player.Pace + 1;
+				player.Point = player.Point - 10;
 			}
+			else Users.Wall();
 		}
-		if (s.equals("s")) {
+		else if (s.equals("s")) {
 			if (Test.TestMap(player.PX+1,player.PY)) {
 				player.PX = player.PX + 1;
+				player.Pace = player.Pace + 1;
+				player.Point = player.Point - 10;
 			}
+			else Users.Wall();
 		}
-		if (s.equals("a")) {
+		else if (s.equals("a")) {
 			if (Test.TestMap(player.PX,player.PY-1)) {
 				player.PY = player.PY - 1;
+				player.Pace = player.Pace + 1;
+				player.Point = player.Point - 10;
 			}
+			else Users.Wall();
 		}
-		if (s.equals("d")) {
+		else if (s.equals("d")) {
 			if (Test.TestMap(player.PX,player.PY+1)) {
 				player.PY =player.PY + 1;
+				player.Pace = player.Pace + 1;
+				player.Point = player.Point - 10;
 			}
+			else Users.Wall();
 		}
-		if (s.equals("p")) {
-			if (Test.TestTreasure(player.PX+1,player.PY)) {
-				map[player.PX+1][player.PY] = 0;
-				player.Treasure = player.Treasure + 1;
-			}
-			if (Test.TestTreasure(player.PX-1,player.PY)) {
-				map[player.PX-1][player.PY] = 0;
-				player.Treasure = player.Treasure + 1;
-			}
-			if (Test.TestTreasure(player.PX,player.PY+1)) {
-				map[player.PX][player.PY+1] = 0;
-				player.Treasure = player.Treasure + 1;
-			}
-			if (Test.TestTreasure(player.PX,player.PY-1)) {
-				map[player.PX][player.PY-1] = 0;
-				player.Treasure = player.Treasure + 1;
-			}
+	}
+	public static void Back() {
+		if(player.turns > 0) {
+		player.PX = player.Footprint[0][player.turns-1];
+		player.PY = player.Footprint[1][player.turns-1];
 		}
+		player.Pace = player.Pace - 1;
+		player.Point = player.Point - 10;
 	}
 	public static void Help() {
 		System.out.printf("\n");
@@ -55,10 +61,10 @@ public class Event extends Game{
 		System.out.println("地图符号标识:");
 		System.out.println("  ▓    墙");
 		System.out.println("  ♀    人物");
-		System.out.println("  ※        终点");
+		System.out.println("  ※    终点");
 		System.out.println("  ·    脚印");
 		System.out.println("  ¤    怪物");
-		System.out.println("  ￥      宝物");
+		System.out.println("  ￥    宝物");
 		System.out.printf("\n");
 		System.out.println("游戏指令介绍:");
 		System.out.println("  h,帮助:显示帮助界面");
@@ -73,5 +79,6 @@ public class Event extends Game{
 		System.out.println("  q,退出:放弃这次的游戏并退出");
 		System.out.println("  x,结束:和退出相同");
 		System.out.printf("\n\n");
+		permission = false;
 	}
 }

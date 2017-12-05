@@ -64,7 +64,8 @@ public class Test extends Game{
 		}
 		return t;
 	}
-	public static void BuildTandM() {
-		
+	public static void Testalive() {
+		for(int i = 0; i < Nm; i++)
+			if ((monster[i].PX == player.PX)&&(monster[i].PY == player.PY)) Users.Die();
 	}
 }
